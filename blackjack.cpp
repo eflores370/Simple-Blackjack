@@ -13,15 +13,15 @@ int drawCard(int playerTotal) {
 }
 
 void dealersTurn(int playerTotal, int dealersTotal) {
-    while (dealersTotal <= 21 || dealersTotal < playerTotal) {
+    while (dealersTotal <= 21 && dealersTotal < playerTotal) {
         int newCard = drawCard(dealersTotal);
         dealersTotal += newCard;
     }
-    if (dealersTotal == 21) {
+    if (dealersTotal == 21 || ) {
         cout << "Dealer Wins!";
     }
     if (dealersTotal > 21) {
-        cout << "Dealer BUSTS! You Win!";
+        cout << "Dealer BUSTS! You Win!\n";
     }
 }
 
