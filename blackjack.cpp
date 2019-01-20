@@ -9,7 +9,6 @@ int drawCard() {
 
 int main() {
     cout << "Blackjack\n" << endl;
-    int BUST = 21;
 
     int dealerFirst, dealerSecond, playerFirst, playerSecond;
 
@@ -18,7 +17,7 @@ int main() {
     dealerSecond = drawCard();
 
     cout << "Dealer's First Card: " + to_string(dealerFirst) << endl;
-    cout << "Secret: " + to_string(dealerSecond) + "\n" << endl;
+    cout << "(Debug) Secret: " + to_string(dealerSecond) + "\n" << endl;
 
     playerFirst = drawCard();
     playerSecond = drawCard();
