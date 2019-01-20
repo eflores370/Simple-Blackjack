@@ -12,26 +12,33 @@ int drawCard(int playerTotal) {
     return card;
 }
 
-void dealersTurn(int playerTotal, int dealersTotal) {
-    while (dealersTotal <= 21 && dealersTotal < playerTotal) {
-        int newCard = drawCard(dealersTotal);
-        dealersTotal += newCard;
-    }
-    if (dealersTotal == 21 || ) {
-        cout << "Dealer Wins!";
-    }
-    if (dealersTotal > 21) {
-        cout << "Dealer BUSTS! You Win!\n";
-    }
-}
-
 
 void displayTotal(int total) {
     cout << "Total: " + to_string(total) << endl;
 }
 
+void dealersTurn(int dealersTotal, int playerTotal) {
+    displayTotal(dealersTotal);
+    while (dealersTotal <= 21 && dealersTotal < playerTotal) {
+        int newCard = drawCard(dealersTotal);
+        cout << "Dealer's Card: " + to_string(newCard) << endl;
+        dealersTotal += newCard;
+        displayTotal(dealersTotal);
+    }
+    if (dealersTotal == playerTotal) {
+        cout << "Draw!\n\n\n";
+    }
+    if (dealersTotal == 21 || (dealersTotal < 21 && dealersTotal > playerTotal) ) {
+        cout << "Dealer Wins!\n\n\n";
+    }
+    if (dealersTotal > 21) {
+        cout << "Dealer BUSTS! You Win!\n\n\n";
+    }
+}
+
+
 int main() {
-        while(true) {
+    while(true) {
         cout << "======================\n      Blackjack\n======================\n" << endl;
 
         int dealerFirst, dealerSecond, dealersTotal, playerFirst, playerSecond;
@@ -39,14 +46,14 @@ int main() {
         // Seed Random
         srand(time(NULL));
         dealerFirst = drawCard(0);
-        dealerSecond = drawCard(0);
+        dealerSecond = drawCard(dealerFirst);
         dealersTotal = dealerFirst + dealerSecond;
 
         cout << "Dealer's First Card: " + to_string(dealerFirst) << endl;
         cout << "(Debug) Secret: " + to_string(dealerSecond) + "\n" << endl;
 
         playerFirst = drawCard(0);
-        playerSecond = drawCard(0);
+        playerSecond = drawCard(playerFirst);
 
         cout << "Your cards\n============" << endl;
         cout << "First Card: " + to_string(playerFirst) << endl;
@@ -78,15 +85,15 @@ int main() {
 
         if (playerTotal > 21) {
             cout << "\nBUST! You Lose" << endl;
+            continue;
         }
 
         else if (playerTotal == 21) {
             cout << "\nJackpot!\n";
-            break;
+            continue;
         }
 
         cout << "\nDealer's Turn\n" << endl;
-
         dealersTurn(dealersTotal, playerTotal);
     }
 }
