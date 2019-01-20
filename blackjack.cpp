@@ -3,56 +3,77 @@
 #include <string>
 using namespace std;
 
-int drawCard() {
-    return (rand() + 1 ) % 11;  
+int drawCard(int playerTotal) {
+    int card = (rand() % 11) + 1;
+    if (playerTotal >= 11 && card == 11) {
+        card = 1;
+        cout << "(Debug) Face Card" << endl;
+    }
+    return card;
+}
+
+
+void displayTotal(int total) {
+    cout << "Total: " + to_string(total) << endl;
 }
 
 int main() {
-    cout << "Blackjack\n" << endl;
+        while(true) {
+        cout << "======================\n      Blackjack\n======================\n" << endl;
 
-    int dealerFirst, dealerSecond, playerFirst, playerSecond;
+        int dealerFirst, dealerSecond, playerFirst, playerSecond;
 
-    srand(time(NULL));
-    dealerFirst = drawCard();
-    dealerSecond = drawCard();
+        // Seed Random
+        srand(time(NULL));
+        dealerFirst = drawCard(0);
+        dealerSecond = drawCard(0);
 
-    cout << "Dealer's First Card: " + to_string(dealerFirst) << endl;
-    cout << "(Debug) Secret: " + to_string(dealerSecond) + "\n" << endl;
+        cout << "Dealer's First Card: " + to_string(dealerFirst) << endl;
+        cout << "(Debug) Secret: " + to_string(dealerSecond) + "\n" << endl;
 
-    playerFirst = drawCard();
-    playerSecond = drawCard();
+        playerFirst = drawCard(0);
+        playerSecond = drawCard(0);
 
-    cout << "Your cards" << endl;
-    cout << "First Card: " + to_string(playerFirst) << endl;
-    cout << "Second Card: " + to_string(playerSecond) << endl;
+        cout << "Your cards\n============" << endl;
+        cout << "First Card: " + to_string(playerFirst) << endl;
+        cout << "Second Card: " + to_string(playerSecond) << endl;
 
-    int playerTotal = playerFirst + playerSecond;
-    int playerChoice;
+        int playerTotal = playerFirst + playerSecond;
+        int playerChoice;
 
-    cout << "playerTotal: " +  to_string(playerTotal) << endl;
+        displayTotal(playerTotal);
 
-    do { 
+        do { 
 
-        cout << "\nHit[1] or Stay[2]" << endl;
-        cin >> playerChoice;
+            cout << "\nHit[1] or Stay[2]" << endl;
+            cin >> playerChoice;
 
-        if (playerChoice == 1) {
-            int newCard = drawCard();        
-            cout << "New Card: " + to_string(newCard) << endl;        
-            playerTotal += newCard;
-            cout << "Total: " + to_string(playerTotal) << endl;
+            if (playerChoice == 1) {
+                int newCard = drawCard(playerTotal);           
+                cout << "\nNew Card: " + to_string(newCard) << endl;
+                playerTotal += newCard;
+                displayTotal(playerTotal);
+            }
+            else if (playerChoice == 2) {
+                break;
+            }
+            else {
+                cout << "\nPlease try again" << endl;
+            }
+        }   while (playerTotal < 21);
+
+        if (playerTotal > 21) {
+            cout << "\nBUST! You Lose" << endl;
         }
-        else if (playerChoice == 2) {
+
+        else if (playerTotal == 21) {
+            cout << "\nJackpot!\n";
             break;
         }
-        else {
-            cout << "Please try again" << endl;
-        }
-    }   while (playerTotal < 22);
 
-    if (playerTotal > 21) {
-        cout << "BUST! You Lose" << endl;
+        cout << "\nDealer's Turn\n" << endl;
+
+        cout << "Press a key to continue..." << endl;
+        cin.ignore();
     }
-
-    cout << "Dealer's Turn" << endl;
 }
