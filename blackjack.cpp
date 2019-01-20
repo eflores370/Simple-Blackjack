@@ -12,6 +12,19 @@ int drawCard(int playerTotal) {
     return card;
 }
 
+void dealersTurn(int playerTotal, int dealersTotal) {
+    while (dealersTotal <= 21 || dealersTotal < playerTotal) {
+        int newCard = drawCard(dealersTotal);
+        dealersTotal += newCard;
+    }
+    if (dealersTotal == 21) {
+        cout << "Dealer Wins!";
+    }
+    if (dealersTotal > 21) {
+        cout << "Dealer BUSTS! You Win!";
+    }
+}
+
 
 void displayTotal(int total) {
     cout << "Total: " + to_string(total) << endl;
@@ -21,12 +34,13 @@ int main() {
         while(true) {
         cout << "======================\n      Blackjack\n======================\n" << endl;
 
-        int dealerFirst, dealerSecond, playerFirst, playerSecond;
+        int dealerFirst, dealerSecond, dealersTotal, playerFirst, playerSecond;
 
         // Seed Random
         srand(time(NULL));
         dealerFirst = drawCard(0);
         dealerSecond = drawCard(0);
+        dealersTotal = dealerFirst + dealerSecond;
 
         cout << "Dealer's First Card: " + to_string(dealerFirst) << endl;
         cout << "(Debug) Secret: " + to_string(dealerSecond) + "\n" << endl;
@@ -73,7 +87,6 @@ int main() {
 
         cout << "\nDealer's Turn\n" << endl;
 
-        cout << "Press a key to continue..." << endl;
-        cin.ignore();
+        dealersTurn(dealersTotal, playerTotal);
     }
 }
